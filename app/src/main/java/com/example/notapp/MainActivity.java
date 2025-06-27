@@ -49,32 +49,16 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDersler.setAdapter(adapter);
 
-        btnHesapla.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnHesapla.setOnClickListener(v -> {
+            try {
+                double vize = Double.parseDouble(etNot1.getText().toString());
+                double finall = Double.parseDouble(etNot2.getText().toString());
+                double ort = (vize * 0.4) + (finall * 0.6);
 
-                String secilenDers = spinnerDersler.getSelectedItem().toString();
-                String not1Str = etNot1.getText().toString();
-                String not2Str = etNot2.getText().toString();
-
-                if (not1Str.isEmpty() || not2Str.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Lütfen tüm notları giriniz.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                try {
-                    double not1 = Double.parseDouble(not1Str);
-                    double not2 = Double.parseDouble(not2Str);
-
-                    double ortalama = (not1 + not2) / 2;
-
-                    String sonucText = secilenDers + "\nOrtalama: " + String.format("%.2f", ortalama);
-
-                    tvSonuc.setText(sonucText);
-
-                } catch (NumberFormatException e) {
-                    Toast.makeText(MainActivity.this, "Geçerli bir sayı giriniz.", Toast.LENGTH_SHORT).show();
-                }
+                tvSonuc.setText(spinnerDersler.getSelectedItem().toString()
+                        + "\nOrtalama: " + String.format("%.2f", ort));
+            } catch (Exception e) {
+                Toast.makeText(this, "Lütfen geçerli notlar girin.", Toast.LENGTH_SHORT).show();
             }
         });
 
